@@ -1,6 +1,7 @@
 # IoTSim
 
-**A Language Framework for Pseudo-Realistic IoT Sensor Stream Generation with Causal Event Chains**
+**A General Framework for Generating Pseudo-Real Sensor Streams with Causal Event Chains**
+
 Advisor: Dr Jianwen Su (UCSB Computer Science Dept)
 
 IoTSim is a declarative language framework for specifying and simulating pseudo-realistic IoT sensor data streams. You write a schema file describing your deployment and a rules file describing your causal event logic. The IoTSim compiler validates the specification, resolves distribution bindings against your enterprise database, and produces a running simulation — no simulation code required.
@@ -109,8 +110,8 @@ The compiler reads the schema and rules, joins device instances against the ente
 - No external dependencies for the core compiler and engine
 
 ```bash
-git clone https://github.com/yourusername/iotsim.git
-cd iotsim
+git clone https://github.com/bhargavi-hash/IoT-Sim.git
+cd IoT-Sim
 pip install -r requirements.txt   # optional: matplotlib for benchmark plots
 ```
 
@@ -177,15 +178,18 @@ CREATE DEVICE CLASS SoilMoistureSensor (
         UNIT        "percent_VWC"
         RANGE       (0.0, 100.0)
         RESOLUTION  0.1,
-    ZONE ENUM *
+    zone ENUM *
 )
 
 -- Multi-measure sensor
 CREATE DEVICE CLASS NPKSensor (
     MEASURES Nitrogen   UNIT "mg_per_kg" RANGE (0.0, 999.0) RESOLUTION 1.0,
+
     MEASURES Phosphorus UNIT "mg_per_kg" RANGE (0.0, 999.0) RESOLUTION 1.0,
+
     MEASURES Potassium  UNIT "mg_per_kg" RANGE (0.0, 999.0) RESOLUTION 1.0,
-    ZONE ENUM *
+    
+    zone ENUM *
 )
 ```
 
