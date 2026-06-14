@@ -4,7 +4,11 @@
 
 Advisor: Dr Jianwen Su (UCSB Computer Science Dept)
 
-IoTSim is a declarative language framework for specifying and simulating pseudo-realistic IoT sensor data streams. You write a schema file describing your deployment and a rules file describing your causal event logic. The IoTSim compiler validates the specification, resolves distribution bindings against your enterprise database, and produces a running simulation — no simulation code required.
+Developing IoT stream-processing systems is often constrained by a lack of realistic sensor event stream data that captures statistical signal behaviour, device heterogeneity, network unreliability, and the causal relationships between physical readings and derived or triggered events. Generating such data today typically requires writing custom simulation scripts tailored to a specific deployment, with no reusable specification layer that separates what sensors measure from how they behave statistically, how they transmit, and what events they trigger.
+
+
+This project presents IoT-Sim, a declarative language framework for specifying and simulating (pseudo) realistic IoT sensor streams, and an event data generator that accurately produces such pseudo real data. The language separates five orthogonal concerns — hardware characteristics, resource topology, streaming event schemas, network transmission behaviour, and statistical signal models — into distinct composable constructs, so that the same compiler and engine serve any IoT domain without modification. Each sensor measure follows a declared statistical distribution with probabilistic tiers representing normal operation, anomalous high conditions, and anomalous low conditions. A companion rule language allows users to define arbitrary window-based computations over incoming sensor readings — expressing sliding aggregations, threshold conditions, and multi-source correlations that produce new derived event streams tailored to the semantics of their specific application. The schema itself serves as a formal, human-readable specification of the IoT deployment it models, cleanly separating what a sensor physically is from how it behaves, where it is deployed, and what events it participates in.
+
 
 ---
 
@@ -188,7 +192,7 @@ CREATE DEVICE CLASS NPKSensor (
     MEASURES Phosphorus UNIT "mg_per_kg" RANGE (0.0, 999.0) RESOLUTION 1.0,
 
     MEASURES Potassium  UNIT "mg_per_kg" RANGE (0.0, 999.0) RESOLUTION 1.0,
-    
+
     zone ENUM *
 )
 ```
