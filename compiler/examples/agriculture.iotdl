@@ -1,0 +1,23 @@
+-- Agriculture IoTDL Rules
+
+new metric_avg[sliding(s, 6)](device_id, Moisture, (avg_value = avg(value))) @ (s + 7) :-
+    sensor_reading_soil(device_id, _, value, _, _) @ z;
+
+new metric_avg[sliding(s, 6)](device_id, AirTemp, (avg_value = avg(value))) @ (s + 7) :-
+    sensor_reading_environment(device_id, value, _) @ z;
+
+new alert[tumbling(s, 30)](device_id, DROUGHT_STRESS, (value = avg(value))) @ (s + 31) :-
+    sensor_reading_soil(device_id, _, value, _, _) @ z,
+    value < 25;
+
+new alert[tumbling(s, 60)](device_id, HEATWAVE, (value = avg(value))) @ (s + 61) :-
+    sensor_reading_environment(device_id, value, _) @ z,
+    value > 38;
+
+new alert[tumbling(s, 60)](device_id, FROST_RISK, (value = avg(value))) @ (s + 61) :-
+    sensor_reading_environment(device_id, value, _) @ z,
+    value < 3;
+
+new report[tumbling(s, 60)](device_id, IRRIGATION_NEEDED) @ (s + 61) :-
+    alert(device_id, DROUGHT_STRESS, value) @ z,
+    value < 25;
